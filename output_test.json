@@ -1,0 +1,1291 @@
+{
+  "periodo": "2026",
+  "fuente": "excel",
+  "cliente_id": "default",
+  "meses": {
+    "ENERO 2026": {
+      "ventas": {
+        "A": {
+          "total": 3164778.72,
+          "Alimentos": 2318182.87,
+          "Bebidas": 416592.1,
+          "Cafe_Inf": 27135.5,
+          "Destilados": 312036.99,
+          "Vinos": 90831.26
+        },
+        "B": {
+          "total": 2392550.65,
+          "Alimentos": 1741017.59,
+          "Bebidas": 257753.77,
+          "Cafe_Inf": 24625.08,
+          "Destilados": 303939.95,
+          "Vinos": 65214.26
+        },
+        "C": {
+          "total": 1139072.01,
+          "Alimentos": 974160.61,
+          "Bebidas": 103955.34,
+          "Cafe_Inf": 6543.1,
+          "Destilados": 40305.19,
+          "Vinos": 14107.77
+        },
+        "D": {
+          "total": 470759.29,
+          "Alimentos": 380446.32,
+          "Bebidas": 55071.57,
+          "Cafe_Inf": 2068.96,
+          "Destilados": 22784.5,
+          "Vinos": 10387.94
+        },
+        "E": {
+          "total": 1819229.95,
+          "Alimentos": 1533422.1,
+          "Bebidas": 176260.43,
+          "Cafe_Inf": 13148.7,
+          "Destilados": 74605.61,
+          "Vinos": 21793.11
+        }
+      },
+      "egresos": {
+        "A": {
+          "total": 968226.78,
+          "Alimentos": 707511.48,
+          "Bebidas": 114321.89,
+          "Cafe_Inf": 9410.01,
+          "Destilados": 97522.34,
+          "Vinos": 39461.07
+        },
+        "B": {
+          "total": 761117.08,
+          "Alimentos": 545221.96,
+          "Bebidas": 81285.8,
+          "Cafe_Inf": 8425.84,
+          "Destilados": 96255.59,
+          "Vinos": 29927.9
+        },
+        "C": {
+          "total": 309557.13,
+          "Alimentos": 254702.52,
+          "Bebidas": 34731.26,
+          "Cafe_Inf": 2476.2,
+          "Destilados": 11802.93,
+          "Vinos": 5844.22
+        },
+        "D": {
+          "total": 131095.62,
+          "Alimentos": 107989.94,
+          "Bebidas": 14090.51,
+          "Cafe_Inf": 0.0,
+          "Destilados": 5604.54,
+          "Vinos": 3410.63
+        },
+        "E": {
+          "total": 549042.82,
+          "Alimentos": 451770.86,
+          "Bebidas": 61234.8,
+          "Cafe_Inf": 4165.2,
+          "Destilados": 23428.82,
+          "Vinos": 8443.14
+        }
+      },
+      "kpis": {
+        "total_ventas": 8986390.62,
+        "total_costo": 2719039.43,
+        "margen_costo": 0.3,
+        "utilidad_bruta": 6267351.19,
+        "margen_bruto": 0.7,
+        "nomina": 2301832.96,
+        "gastos_comerciales": 108084.78,
+        "gastos_operativos": 1242396.41,
+        "gastos_administrativos": 166739.54,
+        "viaticos": 212692.61,
+        "total_gastos_operacion": 4031746.3,
+        "margen_operacion": 0.45,
+        "ebitda": 2235604.89,
+        "margen_ebitda": 0.25,
+        "gastos_financieros": 691459.78,
+        "costo_integral_financiamiento": 691459.78,
+        "impuestos": 0.0,
+        "utilidad_neta": 1544145.11,
+        "margen_neto": 0.17
+      }
+    },
+    "FEBRERO 2026": {
+      "ventas": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "egresos": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "kpis": {
+        "total_ventas": 0.0,
+        "total_costo": 0.0,
+        "margen_costo": 0.0,
+        "utilidad_bruta": 0.0,
+        "margen_bruto": 0.0,
+        "nomina": 0.0,
+        "gastos_comerciales": 0.0,
+        "gastos_operativos": 0.0,
+        "gastos_administrativos": 0.0,
+        "viaticos": 0.0,
+        "total_gastos_operacion": 0.0,
+        "margen_operacion": 0.0,
+        "ebitda": 0.0,
+        "margen_ebitda": 0.0,
+        "gastos_financieros": 0.0,
+        "costo_integral_financiamiento": 0.0,
+        "impuestos": 0.0,
+        "utilidad_neta": 0.0,
+        "margen_neto": 0.0
+      }
+    },
+    "MARZO 2026": {
+      "ventas": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "egresos": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "kpis": {
+        "total_ventas": 0.0,
+        "total_costo": 0.0,
+        "margen_costo": 0.0,
+        "utilidad_bruta": 0.0,
+        "margen_bruto": 0.0,
+        "nomina": 0.0,
+        "gastos_comerciales": 0.0,
+        "gastos_operativos": 0.0,
+        "gastos_administrativos": 0.0,
+        "viaticos": 0.0,
+        "total_gastos_operacion": 0.0,
+        "margen_operacion": 0.0,
+        "ebitda": 0.0,
+        "margen_ebitda": 0.0,
+        "gastos_financieros": 0.0,
+        "costo_integral_financiamiento": 0.0,
+        "impuestos": 0.0,
+        "utilidad_neta": 0.0,
+        "margen_neto": 0.0
+      }
+    },
+    "ABRIL 2026": {
+      "ventas": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "egresos": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "kpis": {
+        "total_ventas": 0.0,
+        "total_costo": 0.0,
+        "margen_costo": 0.0,
+        "utilidad_bruta": 0.0,
+        "margen_bruto": 0.0,
+        "nomina": 0.0,
+        "gastos_comerciales": 0.0,
+        "gastos_operativos": 0.0,
+        "gastos_administrativos": 0.0,
+        "viaticos": 0.0,
+        "total_gastos_operacion": 0.0,
+        "margen_operacion": 0.0,
+        "ebitda": 0.0,
+        "margen_ebitda": 0.0,
+        "gastos_financieros": 0.0,
+        "costo_integral_financiamiento": 0.0,
+        "impuestos": 0.0,
+        "utilidad_neta": 0.0,
+        "margen_neto": 0.0
+      }
+    },
+    "MAYO 2026": {
+      "ventas": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "egresos": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "kpis": {
+        "total_ventas": 0.0,
+        "total_costo": 0.0,
+        "margen_costo": 0.0,
+        "utilidad_bruta": 0.0,
+        "margen_bruto": 0.0,
+        "nomina": 0.0,
+        "gastos_comerciales": 0.0,
+        "gastos_operativos": 0.0,
+        "gastos_administrativos": 0.0,
+        "viaticos": 0.0,
+        "total_gastos_operacion": 0.0,
+        "margen_operacion": 0.0,
+        "ebitda": 0.0,
+        "margen_ebitda": 0.0,
+        "gastos_financieros": 0.0,
+        "costo_integral_financiamiento": 0.0,
+        "impuestos": 0.0,
+        "utilidad_neta": 0.0,
+        "margen_neto": 0.0
+      }
+    },
+    "JUNIO 2026": {
+      "ventas": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "egresos": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "kpis": {
+        "total_ventas": 0.0,
+        "total_costo": 0.0,
+        "margen_costo": 0.0,
+        "utilidad_bruta": 0.0,
+        "margen_bruto": 0.0,
+        "nomina": 0.0,
+        "gastos_comerciales": 0.0,
+        "gastos_operativos": 0.0,
+        "gastos_administrativos": 0.0,
+        "viaticos": 0.0,
+        "total_gastos_operacion": 0.0,
+        "margen_operacion": 0.0,
+        "ebitda": 0.0,
+        "margen_ebitda": 0.0,
+        "gastos_financieros": 0.0,
+        "costo_integral_financiamiento": 0.0,
+        "impuestos": 0.0,
+        "utilidad_neta": 0.0,
+        "margen_neto": 0.0
+      }
+    },
+    "JULIO 2026": {
+      "ventas": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "egresos": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "kpis": {
+        "total_ventas": 0.0,
+        "total_costo": 0.0,
+        "margen_costo": 0.0,
+        "utilidad_bruta": 0.0,
+        "margen_bruto": 0.0,
+        "nomina": 0.0,
+        "gastos_comerciales": 0.0,
+        "gastos_operativos": 0.0,
+        "gastos_administrativos": 0.0,
+        "viaticos": 0.0,
+        "total_gastos_operacion": 0.0,
+        "margen_operacion": 0.0,
+        "ebitda": 0.0,
+        "margen_ebitda": 0.0,
+        "gastos_financieros": 0.0,
+        "costo_integral_financiamiento": 0.0,
+        "impuestos": 0.0,
+        "utilidad_neta": 0.0,
+        "margen_neto": 0.0
+      }
+    },
+    "AGOSTO 2026": {
+      "ventas": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "egresos": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "kpis": {
+        "total_ventas": 0.0,
+        "total_costo": 0.0,
+        "margen_costo": 0.0,
+        "utilidad_bruta": 0.0,
+        "margen_bruto": 0.0,
+        "nomina": 0.0,
+        "gastos_comerciales": 0.0,
+        "gastos_operativos": 0.0,
+        "gastos_administrativos": 0.0,
+        "viaticos": 0.0,
+        "total_gastos_operacion": 0.0,
+        "margen_operacion": 0.0,
+        "ebitda": 0.0,
+        "margen_ebitda": 0.0,
+        "gastos_financieros": 0.0,
+        "costo_integral_financiamiento": 0.0,
+        "impuestos": 0.0,
+        "utilidad_neta": 0.0,
+        "margen_neto": 0.0
+      }
+    },
+    "SEPTIEMBRE 2026": {
+      "ventas": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "egresos": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "kpis": {
+        "total_ventas": 0.0,
+        "total_costo": 0.0,
+        "margen_costo": 0.0,
+        "utilidad_bruta": 0.0,
+        "margen_bruto": 0.0,
+        "nomina": 0.0,
+        "gastos_comerciales": 0.0,
+        "gastos_operativos": 0.0,
+        "gastos_administrativos": 0.0,
+        "viaticos": 0.0,
+        "total_gastos_operacion": 0.0,
+        "margen_operacion": 0.0,
+        "ebitda": 0.0,
+        "margen_ebitda": 0.0,
+        "gastos_financieros": 0.0,
+        "costo_integral_financiamiento": 0.0,
+        "impuestos": 0.0,
+        "utilidad_neta": 0.0,
+        "margen_neto": 0.0
+      }
+    },
+    "OCTUBRE 2026": {
+      "ventas": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "egresos": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "kpis": {
+        "total_ventas": 0.0,
+        "total_costo": 0.0,
+        "margen_costo": 0.0,
+        "utilidad_bruta": 0.0,
+        "margen_bruto": 0.0,
+        "nomina": 0.0,
+        "gastos_comerciales": 0.0,
+        "gastos_operativos": 0.0,
+        "gastos_administrativos": 0.0,
+        "viaticos": 0.0,
+        "total_gastos_operacion": 0.0,
+        "margen_operacion": 0.0,
+        "ebitda": 0.0,
+        "margen_ebitda": 0.0,
+        "gastos_financieros": 0.0,
+        "costo_integral_financiamiento": 0.0,
+        "impuestos": 0.0,
+        "utilidad_neta": 0.0,
+        "margen_neto": 0.0
+      }
+    },
+    "NOVIEMBRE 2026": {
+      "ventas": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "egresos": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "kpis": {
+        "total_ventas": 0.0,
+        "total_costo": 0.0,
+        "margen_costo": 0.0,
+        "utilidad_bruta": 0.0,
+        "margen_bruto": 0.0,
+        "nomina": 0.0,
+        "gastos_comerciales": 0.0,
+        "gastos_operativos": 0.0,
+        "gastos_administrativos": 0.0,
+        "viaticos": 0.0,
+        "total_gastos_operacion": 0.0,
+        "margen_operacion": 0.0,
+        "ebitda": 0.0,
+        "margen_ebitda": 0.0,
+        "gastos_financieros": 0.0,
+        "costo_integral_financiamiento": 0.0,
+        "impuestos": 0.0,
+        "utilidad_neta": 0.0,
+        "margen_neto": 0.0
+      }
+    },
+    "DICIEMBRE 2026": {
+      "ventas": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "egresos": {
+        "A": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "B": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "C": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "D": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        },
+        "E": {
+          "total": 0.0,
+          "Alimentos": 0.0,
+          "Bebidas": 0.0,
+          "Cafe_Inf": 0.0,
+          "Destilados": 0.0,
+          "Vinos": 0.0
+        }
+      },
+      "kpis": {
+        "total_ventas": 0.0,
+        "total_costo": 0.0,
+        "margen_costo": 0.0,
+        "utilidad_bruta": 0.0,
+        "margen_bruto": 0.0,
+        "nomina": 0.0,
+        "gastos_comerciales": 0.0,
+        "gastos_operativos": 0.0,
+        "gastos_administrativos": 0.0,
+        "viaticos": 0.0,
+        "total_gastos_operacion": 0.0,
+        "margen_operacion": 0.0,
+        "ebitda": 0.0,
+        "margen_ebitda": 0.0,
+        "gastos_financieros": 0.0,
+        "costo_integral_financiamiento": 0.0,
+        "impuestos": 0.0,
+        "utilidad_neta": 0.0,
+        "margen_neto": 0.0
+      }
+    }
+  }
+}

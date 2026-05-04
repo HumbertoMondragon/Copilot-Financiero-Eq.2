@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"\\\\.\\(py|json|md|toml|yaml|yml|txt\\)$|^d\")",
+      "Bash(\"/c/Users/humbe/Copilot-Financiero-Eq.2/.venv/Scripts/pip\" install *)",
+      "Bash(\"/c/Users/humbe/Copilot-Financiero-Eq.2/.venv/Scripts/python\" -m financial_normalizer.tests.create_fixtures)",
+      "Bash(\"/c/Users/humbe/Copilot-Financiero-Eq.2/.venv/Scripts/python\" -c \"import anthropic, pandas, openpyxl, pdfplumber, pytest; print\\('all imports OK'\\)\")",
+      "Bash(\"/c/Users/humbe/Copilot-Financiero-Eq.2/.venv/Scripts/python\" -m pytest financial_normalizer/tests/test_validator.py -v)",
+      "Bash(\"/c/Users/humbe/Copilot-Financiero-Eq.2/.venv/Scripts/python\" financial_normalizer/tests/create_fixtures.py)",
+      "Bash(/c/Users/humbe/Copilot-Financiero-Eq.2/.venv/Scripts/python -c ' *)"
+    ]
+  }
+}
