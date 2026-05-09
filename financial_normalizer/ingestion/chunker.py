@@ -79,6 +79,7 @@ def chunk_document(
                 "chunk_index": i,
                 "start_char": start_char,
                 "end_char": end_char,
+                "filename": document.filename,
             },
         ))
     return chunks
