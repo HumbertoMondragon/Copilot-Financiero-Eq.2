@@ -15,7 +15,8 @@
       "Bash(python -c \"import chromadb; import sentence_transformers; print\\('ok'\\)\")",
       "Bash(python -m pip install \"chromadb>=0.5.0\" \"sentence-transformers>=3.0.0\")",
       "Bash(python -c \"import chromadb; import sentence_transformers; print\\('chromadb', chromadb.__version__\\); print\\('sentence_transformers', sentence_transformers.__version__\\)\")",
-      "Bash(python -m pytest financial_normalizer/tests/test_vector_store.py -v --tb=short)"
+      "Bash(python -m pytest financial_normalizer/tests/test_vector_store.py -v --tb=short)",
+      "Bash(python -m pytest financial_normalizer/tests/test_orchestrator.py -v --tb=short)"
     ]
   }
 }
