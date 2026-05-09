@@ -29,7 +29,9 @@ class VectorStore:
         persist_directory: str = "./chroma_db",
         collection_name: str = "documentos",
     ) -> None:
+        import os
         import chromadb
+        os.environ.setdefault("HF_HUB_DISABLE_IMPLICIT_TOKEN", "1")
         from sentence_transformers import SentenceTransformer
 
         self._model = SentenceTransformer("all-MiniLM-L6-v2")
