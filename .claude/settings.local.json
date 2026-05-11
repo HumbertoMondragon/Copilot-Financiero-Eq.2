@@ -18,7 +18,13 @@
       "Bash(python -m pytest financial_normalizer/tests/test_vector_store.py -v --tb=short)",
       "Bash(python -m pytest financial_normalizer/tests/test_orchestrator.py -v --tb=short)",
       "Bash(python -m pytest financial_normalizer/tests/test_recommendations.py -v --tb=short)",
-      "Bash(python -m pytest financial_normalizer/tests/ -v --tb=short)"
+      "Bash(python -m pytest financial_normalizer/tests/ -v --tb=short)",
+      "Bash(python -m pip install streamlit plotly reportlab python-dotenv)",
+      "Bash(python -c \"import plotly; import reportlab; import streamlit; import dotenv; print\\('all ok'\\)\")",
+      "Bash(python -c \"import app\")",
+      "Bash(.venv/Scripts/python -c \"import app\")",
+      "Bash(.venv\\\\Scripts\\\\python.exe -c \"import app\")",
+      "PowerShell(cd \"C:\\\\Users\\\\humbe\\\\Copilot-Financiero-Eq.2\"; .\\\\.venv\\\\Scripts\\\\python.exe -c \"import app\"; Write-Host \"Exit code: $LASTEXITCODE\")"
     ]
   }
 }

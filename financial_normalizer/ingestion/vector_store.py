@@ -35,6 +35,7 @@ class VectorStore:
         from sentence_transformers import SentenceTransformer
 
         self._model = SentenceTransformer("all-MiniLM-L6-v2")
+        self.embedding_model = self._model
         self._client = chromadb.PersistentClient(path=persist_directory)
         self._collection = self._client.get_or_create_collection(
             name=collection_name,
