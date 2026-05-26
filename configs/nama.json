@@ -1,0 +1,25 @@
+{
+  "cliente_id": "nama",
+  "sector": "restaurante_premium",
+  "benchmarks": {
+    "costo_directo_pct": 0.32,
+    "margen_bruto": 0.68,
+    "nomina_pct": 0.28,
+    "gastos_op_pct": 0.38,
+    "gastos_financieros_pct": 0.05,
+    "margen_neto": 0.10
+  },
+  "health_score_weights": {
+    "margen_bruto_vs_benchmark": 0.30,
+    "nomina_vs_benchmark": 0.25,
+    "gastos_financieros_vs_benchmark": 0.20,
+    "presion_inflacionaria": 0.15,
+    "tendencia_ingresos": 0.10
+  },
+  "macro_sensibilidad": {
+    "energia": 0.15,
+    "servicios": 0.40,
+    "mercancias": 0.30,
+    "alimentos": 0.15
+  }
+}
