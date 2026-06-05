@@ -171,8 +171,7 @@ Copilot-Financiero-Eq.2/
 ├── .env                        # Variables de entorno (no se versiona)
 ├── .gitignore
 ├── load_env.ps1                # Script PowerShell para cargar el entorno
-├── API_DOCUMENTATION.md        # Documentacion completa de la API
-└── CLAUDE.md                   # Guia para Claude Code
+└── API_DOCUMENTATION.md        # Documentacion completa de la API
 ```
 
 ---
