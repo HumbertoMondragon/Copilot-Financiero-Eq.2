@@ -858,7 +858,7 @@ def _tab_recomendaciones(st, results):
     # Prompt (read-only)
     prompt_used = results.get("prompt_used", "")
     if prompt_used:
-        with st.expander("Prompt enviado a Claude"):
+        with st.expander("Prompt enviado al LLM"):
             st.text_area("Prompt", prompt_used, height=300, disabled=True, key="prompt_ro")
 
     # Recommendations
@@ -876,7 +876,7 @@ def _tab_recomendaciones(st, results):
             impacto = r.get("impacto_estimado", r.get("impacto", ""))
             if impacto:
                 st.caption(f"Impacto: {impacto}")
-            accion = r.get("accion_inmediata", r.get("accion", ""))
+            accion = r.get("accion_sugerida", r.get("accion_inmediata", r.get("accion", "")))
             if accion:
                 st.caption(f"Acción: {accion}")
 
@@ -1150,27 +1150,33 @@ def main():
 
                 # ── Fase 8: Recomendaciones (LLM) ──────────────────────────
                 t0 = time.perf_counter()
-                if "fase2" not in errors:
+                if "fase2" not in errors and results.get("health_score_report") is not None:
                     try:
-                        from src.pipeline.engine import CopilotEngine
+                        from src.pipeline.engine import CopilotEngine, _SYSTEM_INSTRUCTION
                         engine = CopilotEngine()
-                        report = engine.run_full_pipeline(
-                            bd_filepath=bd_tmp,
-                            er_filepath=er_tmp,
-                            qualitative_filepaths=qual_tmps,
-                            cliente_id=cliente_id,
-                            train_model=train_ml,
-                        )
-                        results["copilot_report"] = report
-                        results["prompt_used"] = engine.build_prompt(
-                            results.get("kpi_report"),
-                            results.get("health_score_report"),
+                        prompt = engine.build_prompt(
+                            results["kpi_report"],
+                            results["health_score_report"],
                             results.get("macro_indices"),
                             results.get("shap_narrative"),
                             results.get("forecast"),
                             results.get("chunks", []),
                             st.session_state.get("scenario_result"),
-                        ) if hasattr(engine, "build_prompt") else ""
+                        )
+                        report = engine.generate(
+                            kpi_report=results["kpi_report"],
+                            health_score_report=results["health_score_report"],
+                            macro_indices=results.get("macro_indices"),
+                            shap_narrative=results.get("shap_narrative"),
+                            forecast_result=results.get("forecast"),
+                            chunks=results.get("chunks", []),
+                            scenario_result=st.session_state.get("scenario_result"),
+                            cliente_id=cliente_id,
+                        )
+                        results["copilot_report"] = report
+                        results["prompt_used"] = (
+                            f"[SYSTEM]\n{_SYSTEM_INSTRUCTION}\n\n[USER]\n{prompt}"
+                        )
                     except Exception as e:
                         errors["fase8"] = str(e)
                         results["error_fase8"] = str(e)

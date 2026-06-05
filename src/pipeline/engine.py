@@ -6,9 +6,9 @@ from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 try:
-    import anthropic
+    import openai
 except ImportError:
-    anthropic = None  # type: ignore
+    openai = None  # type: ignore
 
 from .forecast import ForecastResult, forecast_revenue
 from .health_score import HealthScoreReport, calcular_health_score
@@ -43,17 +43,17 @@ _OUTPUT_FORMAT = (
     '      "id": "REC-001",\n'
     '      "area": "rentabilidad|costos|sucursales|mix_productos|macro|operaciones",\n'
     '      "prioridad": "alta|media|baja",\n'
-    '      "titulo": "...",\n'
-    '      "descripcion": "...",\n'
-    '      "evidencia": [{"tipo": "kpi|shap|sku|macro|documento", "fuente": "...", "valor": "..."}],\n'
-    '      "accion_sugerida": "...",\n'
-    '      "impacto_estimado": "..."\n'
+    '      "titulo": "Título concreto y específico (10-15 palabras)",\n'
+    '      "descripcion": "Análisis detallado de 3-5 oraciones: situación actual con cifras, causa raíz identificada, relación con los KPIs y Health Score reportados, y contexto macroeconómico relevante si aplica.",\n'
+    '      "evidencia": [{"tipo": "kpi|shap|sku|macro|documento", "fuente": "nombre del indicador o documento", "valor": "valor numérico exacto del dato"}],\n'
+    '      "accion_sugerida": "Pasos concretos y secuenciados (2-3 oraciones): qué hacer, cómo y en qué plazo estimado.",\n'
+    '      "impacto_estimado": "Estimación cuantitativa o semi-cuantitativa: porcentaje de mejora esperado, ahorro potencial o variación en márgenes, con base en los datos disponibles."\n'
     '    }\n'
     '  ],\n'
-    '  "narrativa_ejecutiva": "3-4 oraciones integrando todas las fuentes de datos",\n'
-    '  "limitaciones": ["..."]\n'
+    '  "narrativa_ejecutiva": "Párrafo ejecutivo de 5-7 oraciones que integre: estado financiero general con el Health Score, los KPIs más relevantes vs benchmark, factores ML/SHAP determinantes, tendencia de ingresos y contexto macro. Debe ser redactado como un consultor senior explicando la situación a un director.",\n'
+    '  "limitaciones": ["limitación específica con explicación de su impacto en el análisis"]\n'
     '}\n'
-    'Máximo 5 recomendaciones. Prioriza por fortaleza de evidencia.'
+    'Entre 3 y 5 recomendaciones. Prioriza por fortaleza de evidencia y magnitud del impacto potencial. Cada descripción debe citar valores numéricos específicos de los datos proporcionados.'
 )
 
 
@@ -77,15 +77,15 @@ class CopilotEngine:
 
     def __init__(
         self,
-        model: str = "claude-sonnet-4-20250514",
-        max_tokens: int = 2500,
+        model: str = "gpt-4o-mini",
+        max_tokens: int = 4000,
     ) -> None:
         self.model = model
         self.max_tokens = max_tokens
         self._last_usage: Dict[str, int] = {"prompt_tokens": 0, "completion_tokens": 0}
-        if anthropic is None:
-            raise ImportError("anthropic no instalado — ejecuta: pip install anthropic")
-        self._client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY", ""))
+        if openai is None:
+            raise ImportError("openai no instalado — ejecuta: pip install openai")
+        self._client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY", ""))
 
         self._vector_store = None
         if _VectorStore is not None:
@@ -108,7 +108,7 @@ class CopilotEngine:
         hs_mes = health_score_report.por_mes[mes]
         consolidado = kpi_report.por_mes[mes]["consolidado"]
 
-        parts: List[str] = [_SYSTEM_INSTRUCTION]
+        parts: List[str] = []
 
         # Health Score section
         dim_debil = hs_mes["dimension_mas_debil"]
@@ -224,15 +224,19 @@ class CopilotEngine:
 
     def _call_llm(self, prompt: str) -> Dict[str, Any]:
         for attempt in range(2):
-            response = self._client.messages.create(
+            response = self._client.chat.completions.create(
                 model=self.model,
                 max_tokens=self.max_tokens,
-                messages=[{"role": "user", "content": prompt}],
+                response_format={"type": "json_object"},
+                messages=[
+                    {"role": "system", "content": _SYSTEM_INSTRUCTION},
+                    {"role": "user", "content": prompt},
+                ],
             )
-            text = response.content[0].text
+            text = response.choices[0].message.content
             self._last_usage = {
-                "prompt_tokens": response.usage.input_tokens,
-                "completion_tokens": response.usage.output_tokens,
+                "prompt_tokens": response.usage.prompt_tokens,
+                "completion_tokens": response.usage.completion_tokens,
             }
             try:
                 return json.loads(text)
@@ -326,18 +330,20 @@ class CopilotEngine:
         qualitative_filepaths: Optional[List[str]] = None,
         cliente_id: str = "default",
         config_path: Optional[str] = None,
+        config: Optional[Dict[str, Any]] = None,
         train_model: bool = True,
     ) -> CopilotReport:
         qualitative_filepaths = qualitative_filepaths or []
 
-        if config_path is None:
-            config_path = f"configs/{cliente_id}.json"
-        try:
-            with open(config_path) as fh:
-                config: Dict[str, Any] = json.load(fh)
-        except FileNotFoundError:
-            logger.warning("Config not found at %s — using defaults", config_path)
-            config = {}
+        if config is None:
+            if config_path is None:
+                config_path = f"configs/{cliente_id}.json"
+            try:
+                with open(config_path) as fh:
+                    config = json.load(fh)
+            except FileNotFoundError:
+                logger.warning("Config not found at %s — using defaults", config_path)
+                config = {}
 
         bd_data = parse_bd(bd_filepath)
         er_data = parse_er(er_filepath)

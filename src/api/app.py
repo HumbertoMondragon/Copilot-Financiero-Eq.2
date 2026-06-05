@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, Request
+from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
@@ -15,6 +15,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="Copilot Financiero API",
     version="2.0.0",
+    description="API de análisis financiero con IA para PyMEs mexicanas.",
     lifespan=lifespan,
 )
 
@@ -26,11 +27,25 @@ app.add_middleware(
     allow_credentials=True,
 )
 
-from .routes.health import router as health_router       # noqa: E402
-from .routes.analysis import router as analysis_router  # noqa: E402
+from .auth import verify_api_key                          # noqa: E402
+from .routes.health import router as health_router        # noqa: E402
+from .routes.analysis import router as analysis_router   # noqa: E402
+from .routes.tasks import router as tasks_router         # noqa: E402
 
+# Health endpoints: públicos (sin autenticación)
 app.include_router(health_router, prefix="/api/v1")
-app.include_router(analysis_router, prefix="/api/v1")
+
+# Tasks y análisis requieren X-API-Key
+app.include_router(
+    tasks_router,
+    prefix="/api/v1",
+    dependencies=[Depends(verify_api_key)],
+)
+app.include_router(
+    analysis_router,
+    prefix="/api/v1",
+    dependencies=[Depends(verify_api_key)],
+)
 
 
 @app.exception_handler(Exception)

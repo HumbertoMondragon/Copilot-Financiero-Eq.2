@@ -1,231 +1,225 @@
-  # Copilot Financiero Eq.2
+# Copilot Financiero Eq.2
 
-  Copiloto financiero impulsado por IA que analiza Estados de Resultados, calcula indicadores clave y genera recomendaciones basadas en evidencia usando la API de Claude (Anthropic).
+Copiloto financiero con IA para PyMEs mexicanas. Analiza ventas y estado de resultados, calcula KPIs, genera un Health Score compuesto, proyecta ingresos y produce recomendaciones accionables mediante GPT-4o Mini.
 
-  ---
+El proyecto se entrega como dos componentes complementarios:
 
-  ## Descripcion general
+| Componente | Comando | Descripcion |
+|---|---|---|
+| **API REST** | `uvicorn src.api.app:app` | 12 endpoints FastAPI para integrarse sin instalar nada adicional |
+| **Interfaz Streamlit** | `streamlit run streamlit/app.py` | Interfaz de 11 fases que visualiza cada etapa del pipeline |
 
-  El sistema toma un archivo financiero (Excel, PDF de texto o PDF escaneado) junto con documentos cualitativos opcionales (reportes, actas, notas), y produce:
+---
 
-  - JSON normalizado del Estado de Resultados
-  - Indicadores financieros por mes y sucursal (margen bruto, EBITDA, margen neto, alertas)
-  - Contexto cualitativo recuperado por busqueda semantica
-  - Recomendaciones accionables generadas por Claude, citando valores reales del analisis
+## Requisitos
 
-  Hay dos interfaces Streamlit incluidas:
+- Python 3.11+
+- Variables de entorno en `.env` (ver seccion siguiente)
 
-  | Archivo | Publico | Descripcion |
-  |---|---|---|
-  | `app_consultant.py` | Usuario final | Carga archivo → ve indicadores y graficas → descarga reporte PDF |
-  | `app.py` | Desarrollador | Demo tecnica con 6 pestanas, una por fase del pipeline |
+---
 
-  ---
+## Instalacion
 
-  ## Requisitos del sistema
+```powershell
+# 1. Clonar el repositorio
+git clone <repo-url>
+cd Copilot-Financiero-Eq.2
 
-  - Python 3.11+
-  - Una `ANTHROPIC_API_KEY` valida (modelo `claude-sonnet-4-20250514`)
-  - Para PDFs escaneados (opcional):
-    - [Tesseract OCR](https://github.com/UB-Mannheim/tesseract/wiki) (Windows) o `brew install tesseract`
-    - [Poppler](https://github.com/oschwartz10612/poppler-windows/releases) (Windows) o `brew install poppler`
+# 2. Crear y activar entorno virtual
+python -m venv .venv
+.venv\Scripts\activate          # Windows
+# source .venv/bin/activate     # macOS / Linux
 
-  ---
+# 3. Instalar dependencias
+pip install fastapi uvicorn openai chromadb sentence-transformers xgboost shap numpy pandas fpdf2 streamlit plotly python-dotenv requests
+```
 
-  ## Instalacion
+---
 
-  ```bash
-  # 1. Clonar el repositorio
-  git clone <repo-url>
-  cd Copilot-Financiero-Eq.2
+## Variables de entorno
 
-  # 2. Crear y activar entorno virtual
-  python -m venv .venv
-  .venv\Scripts\activate          # Windows
-  # source .venv/bin/activate     # macOS / Linux
+Crea un archivo `.env` en la raiz con:
 
-  # 3. Instalar dependencias
-  pip install -r financial_normalizer/requirements.txt
+```env
+OPENAI_API_KEY=sk-proj-...        # Clave de API de OpenAI (GPT-4o Mini)
+BANXICO_TOKEN=...                 # Token del API de Banxico (datos macro)
+API_KEYS=copilot-<tu-clave>       # Keys de acceso a la API (separadas por coma)
+```
 
-  # 4. Configurar variables de entorno
-  # Crea un archivo .env en la raiz con:
-  # ANTHROPIC_API_KEY=sk-ant-...
-  ```
+> Si `API_KEYS` no esta definido, la autenticacion se deshabilita automaticamente (modo desarrollo).
 
-  ---
+---
 
-  ## Uso rapido
+## Uso rapido
 
-  ### Interfaz de usuario final
+### API REST
 
-  ```bash
-  streamlit run app_consultant.py
-  ```
+```powershell
+# Activar entorno y arrancar el servidor
+.venv\Scripts\activate
+uvicorn src.api.app:app --host 0.0.0.0 --port 8000 --reload
+```
 
-  1. Ingresa el **ID de cliente**
-  2. Sube el **Estado de Resultados** (Excel o PDF)
-  3. Sube documentos de contexto opcionales (PDF, TXT, MD)
-  4. Haz clic en **Analizar**
-  5. Revisa indicadores, graficas y recomendaciones
-  6. Descarga el **Reporte PDF**
+Documentacion interactiva disponible en `http://localhost:8000/docs`.
 
-  ### Demo tecnica (para desarrolladores)
+Llamada de ejemplo:
 
-  ```bash
-  streamlit run app.py
-  ```
+```python
+import requests, time
 
-  Muestra en detalle cada fase del pipeline, los datos intermedios, embeddings, queries generadas y el JSON completo de cada etapa.
+BASE = "http://localhost:8000/api/v1"
+HEADERS = {"X-API-Key": "copilot-<tu-clave>"}
 
-  ### Uso como libreria
+with open("ventas.csv", "rb") as bd, open("er.csv", "rb") as er:
+    r = requests.post(f"{BASE}/analyze", headers=HEADERS,
+        data={"cliente_id": "mi_empresa"},
+        files={"bd_file": ("ventas.csv", bd, "text/csv"),
+               "er_file": ("er.csv", er, "text/csv")})
 
-  ```python
-  from financial_normalizer.normalizer import normalize
+task_id = r.json()["task_id"]
 
-  resultado = normalize("ruta/al/estado_resultados.xlsx", cliente_id="mi_cliente")
-  print(resultado["meses"]["ENERO 2026"]["kpis"]["ebitda"])
-  ```
+# Polling hasta que termine
+while True:
+    s = requests.get(f"{BASE}/tasks/{task_id}", headers=HEADERS).json()
+    if s["status"] == "completed":
+        print(f"Health Score: {s['result']['health_score']}")
+        break
+    elif s["status"] == "failed":
+        print(f"Error: {s['error']}")
+        break
+    time.sleep(5)
+```
 
-  ---
+### Interfaz Streamlit
 
-  ## Pipeline de 6 fases
+```powershell
+.venv\Scripts\activate
+streamlit run streamlit/app.py
+```
 
-  ```
-  Fase 0  Normalizacion     Excel / PDF texto / PDF escaneado / LLM fallback  →  JSON estandar
-  Fase 1  Indicadores       Python puro, sin LLM  →  margenes, alertas, estructura de costos
-  Fase 2  Ingesta docs      Carga y chunking de documentos cualitativos  →  DocumentStore
-  Fase 3  Embeddings        all-MiniLM-L6-v2, 384 dimensiones  →  ChromaDB
-  Fase 4  Orquestador       Indicadores + contexto cualitativo  →  AnalysisPackage
-  Fase 5  Recomendaciones   Claude API  →  RecommendationReport con evidencia citada
-  ```
+La interfaz guia al usuario por las 11 fases del pipeline: carga de archivos, parseo, KPIs, ML/SHAP, forecast, indices macro, Health Score, ingestion de documentos cualitativos, recomendaciones LLM, reporte PDF y simulacion de escenarios Monte Carlo.
 
-  ### Fase 0 — Normalizacion
+---
 
-  El modulo `normalizer.py` selecciona automaticamente el parser correcto:
+## Pipeline de 11 fases
 
-  | Tipo de archivo | Parser usado |
-  |---|---|
-  | `.xlsx / .xls / .xlsm` | `parser_excel` — openpyxl + pandas, maneja celdas combinadas |
-  | PDF con texto | `parser_pdf_texto` — pdfplumber, extraccion de tablas y lineas |
-  | PDF escaneado | `parser_pdf_escaneado` — pdf2image + OpenCV + pytesseract |
-  | Cualquier otro | `parser_llm` — Claude API como fallback universal |
+| Fase | Nombre | Descripcion |
+|------|--------|-------------|
+| 1 | Carga de archivos | BD (ventas por SKU) + ER (gastos) en CSV |
+| 2 | Parseo | Validacion de columnas y normalizacion |
+| 3 | KPIs | Margenes, EBITDA, alertas vs benchmark |
+| 4 | ML / XGBoost | Eficiencia por SKU, entrenamiento y prediccion |
+| 5 | SHAP | Factores explicativos del modelo y narrativa |
+| 6 | Forecast | Proyeccion de ingresos (regresion lineal) |
+| 7 | Macro | Inflacion, tasa Banxico, tipo de cambio (INEGI/Banxico) |
+| 8 | Health Score | Score compuesto 0-100 por mes con dimensiones ponderadas |
+| 9 | Documentos cualitativos | Ingestion RAG, embeddings, ChromaDB |
+| 10 | Recomendaciones LLM | GPT-4o Mini genera recomendaciones citando los KPIs reales |
+| 11 | Escenarios Monte Carlo | Simulacion what-if con distribuciones de probabilidad |
 
-  Salida: JSON con estructura `{ "cliente_id", "periodo", "meses": { "MES": { "ventas": {...}, "kpis": {...} } } }`
+---
 
-  El `validator.py` verifica consistencia aritmetica con tolerancia del 2%.
+## Estructura del proyecto
 
-  ### Fase 1 — Indicadores
+```
+Copilot-Financiero-Eq.2/
+├── src/
+│   ├── api/
+│   │   ├── app.py              # FastAPI app y registro de routers
+│   │   ├── auth.py             # Autenticacion por X-API-Key
+│   │   ├── models.py           # Modelos Pydantic
+│   │   ├── tasks.py            # Store de tareas en memoria (TTL: 1h)
+│   │   └── routes/
+│   │       ├── analysis.py     # Endpoints de analisis (/analyze, /kpis, /pdf, etc.)
+│   │       ├── health.py       # Endpoints publicos de health check
+│   │       └── tasks.py        # Endpoints de polling y descarga
+│   ├── ingestion/
+│   │   ├── chunker.py          # Fragmentacion de texto en chunks
+│   │   ├── document_loader.py  # Carga de PDF, TXT, XLSX
+│   │   ├── document_store.py   # Store en memoria de documentos
+│   │   └── vector_store.py     # ChromaDB + sentence-transformers
+│   ├── ml/
+│   │   ├── features.py         # Ingenieria de caracteristicas
+│   │   ├── predictor.py        # Prediccion con modelo guardado
+│   │   └── trainer.py          # Entrenamiento XGBoost
+│   └── pipeline/
+│       ├── engine.py           # Motor LLM (GPT-4o Mini via OpenAI SDK)
+│       ├── forecast.py         # Proyeccion de ingresos
+│       ├── health_score.py     # Health Score compuesto
+│       ├── integrator.py       # Orquestador del pipeline completo
+│       ├── kpis.py             # Calculo de KPIs financieros
+│       ├── macro.py            # Indices macroeconomicos
+│       ├── report_generator.py # Generacion de PDF (fpdf2)
+│       ├── scenario.py         # Simulacion Monte Carlo
+│       ├── shap_translator.py  # Narrativa SHAP
+│       └── parsers/
+│           ├── parser_bd.py    # Parser CSV de ventas
+│           ├── parser_er.py    # Parser CSV de estado de resultados
+│           └── parser_utils.py
+├── streamlit/
+│   └── app.py                  # Interfaz de 11 fases
+├── tests/
+│   ├── fixtures/
+│   │   ├── sample_bd.csv
+│   │   └── sample_er.csv
+│   └── test_*.py               # Suite de tests
+├── configs/
+│   └── nama.json               # Ejemplo de configuracion de cliente
+├── models/
+│   └── default/
+│       └── xgboost_efficiency.pkl
+├── .env                        # Variables de entorno (no se versiona)
+├── .gitignore
+├── load_env.ps1                # Script PowerShell para cargar el entorno
+├── API_DOCUMENTATION.md        # Documentacion completa de la API
+└── CLAUDE.md                   # Guia para Claude Code
+```
 
-  Calculo determinista (sin LLM) de:
+---
 
-  - **Rentabilidad**: margen bruto, margen EBITDA, margen neto
-  - **Estructura de costos**: nomina/ventas, gastos operativos/ventas, costo/ventas
-  - **Analisis por sucursal**: venta, egreso, margen, participacion, alerta si margen < umbral
-  - **Alertas**: severidad alta/media/baja con tipo y umbral superado
+## Tests
 
-  Umbrales por defecto: margen bruto < 40%, EBITDA < 10%, margen neto < 5%, margen sucursal < 15%, nomina/ventas > 30%, gastos op/ventas > 40%.
+```powershell
+# Ejecutar todos los tests
+pytest tests/
 
-  ### Fases 2 y 3 — Ingesta y Embeddings
+# Un modulo especifico
+pytest tests/test_kpis.py -v
+```
 
-  Los documentos cualitativos se fragmentan en chunks de ~500 caracteres con solapamiento de 50 caracteres. Cada chunk se convierte en un vector de 384 dimensiones usando el modelo `all-MiniLM-L6-v2` (sentence-transformers) y se persiste en ChromaDB.
+---
 
-  ### Fase 4 — Orquestador
+## Endpoints principales
 
-  Para cada mes con datos, genera entre 4 y 8 queries de busqueda semantica basadas en los indicadores (las 4 bases siempre se incluyen; las condicionales se activan cuando se superan umbrales). Recupera los 8 chunks mas relevantes por mes, los deduplica y los incluye en el `AnalysisPackage`.
+| Metodo | Ruta | Descripcion |
+|--------|------|-------------|
+| `GET` | `/api/v1/health` | Health check publico |
+| `GET` | `/api/v1/health/detailed` | Verifica API keys y directorios |
+| `POST` | `/api/v1/analyze` | Analisis completo con LLM (async, 202) |
+| `POST` | `/api/v1/kpis` | Solo KPIs, sin LLM (sincrono) |
+| `POST` | `/api/v1/health-score` | Health Score compuesto (sincrono) |
+| `POST` | `/api/v1/forecast` | Proyeccion de ingresos (sincrono) |
+| `GET` | `/api/v1/macro` | Indices macroeconomicos |
+| `POST` | `/api/v1/train` | Entrenar modelo XGBoost |
+| `POST` | `/api/v1/pdf` | Reporte PDF ejecutivo (async, 202) |
+| `POST` | `/api/v1/scenario` | Simulacion Monte Carlo (sincrono) |
+| `GET` | `/api/v1/tasks/{id}` | Estado de tarea async |
+| `GET` | `/api/v1/tasks/{id}/download` | Descargar PDF generado |
 
-  ### Fase 5 — Motor de Recomendaciones
+Ver `API_DOCUMENTATION.md` para la especificacion completa con ejemplos.
 
-  Construye un prompt estructurado con los indicadores reales y el contexto cualitativo recuperado, y llama a `claude-sonnet-4-20250514`. Claude responde en JSON con recomendaciones que citan exclusivamente valores del `AnalysisPackage` (no inventa numeros). Cada recomendacion incluye: `id`, `titulo`, `descripcion`, `prioridad` (alta/media/baja), `evidencia[]` y `accion_sugerida`.
+---
 
-  ---
+## Dependencias principales
 
-  ## Estructura del proyecto
-
-  ```
-  Copilot-Financiero-Eq.2/
-  ├── app_consultant.py              # Interfaz de usuario final (Streamlit)
-  ├── app.py                         # Demo tecnica para desarrolladores (Streamlit)
-  ├── .env                           # Variables de entorno (no se versiona)
-  ├── financial_normalizer/
-  │   ├── normalizer.py              # Entrada principal, seleccion de parser
-  │   ├── validator.py               # Verificacion aritmetica (tolerancia 2%)
-  │   ├── indicators.py              # Calculo de KPIs y alertas
-  │   ├── orchestrator.py            # Orquestador cuantitativo + cualitativo
-  │   ├── recommendations.py         # Motor de recomendaciones con Claude API
-  │   ├── profiles.py                # Perfiles de cliente (sinonimos, escala, hints)
-  │   ├── utils.py                   # Helpers: clean_currency, almost_equal, detect_months
-  │   ├── parsers/
-  │   │   ├── parser_excel.py        # openpyxl + pandas
-  │   │   ├── parser_pdf_texto.py    # pdfplumber
-  │   │   ├── parser_pdf_escaneado.py# pdf2image + OpenCV + pytesseract
-  │   │   └── parser_llm.py          # Fallback con Claude API
-  │   ├── ingestion/
-  │   │   ├── document_loader.py     # Carga de PDF, TXT, MD
-  │   │   ├── chunker.py             # Fragmentacion de texto
-  │   │   ├── document_store.py      # Almacen en memoria de documentos y chunks
-  │   │   └── vector_store.py        # ChromaDB + sentence-transformers
-  │   ├── requirements.txt
-  │   └── tests/
-  │       ├── fixtures.py            # Datos sinteticos aritmeticamente consistentes
-  │       ├── create_fixtures.py     # Genera .xlsx y .txt de prueba
-  │       ├── test_validator.py
-  │       ├── test_indicators.py
-  │       ├── test_ingestion.py
-  │       ├── test_orchestrator.py
-  │       ├── test_recommendations.py
-  │       └── test_vector_store.py
-  └── chroma_db/                     # Base de datos vectorial persistente (local)
-  ```
-
-  ---
-
-  ## Tests
-
-  ```bash
-  # Ejecutar todos los tests (226 tests, 0 fallos)
-  pytest
-
-  # Solo un modulo
-  pytest financial_normalizer/tests/test_validator.py -v
-
-  # Generar fixtures sinteticas
-  python -m financial_normalizer.tests.create_fixtures
-  ```
-
-  ---
-
-  ## Perfiles de cliente
-
-  Edita `financial_normalizer/profiles.py` para agregar sinonimos, hints o factores de escala por cliente:
-
-  ```python
-  PROFILES["mi_cliente"] = {
-      "hint": "Este cliente reporta costos de alimentos separado bajo 'Costo Alimentos'.",
-      "synonyms": {"Costo Alimentos": "total_costo"},
-      "scale": 1000.0,  # reporta en miles
-  }
-  ```
-
-  ---
-
-  ## Variables de entorno
-
-  | Variable | Requerida | Descripcion |
-  |---|---|---|
-  | `ANTHROPIC_API_KEY` | Si | Clave API de Anthropic para los parsers LLM y el motor de recomendaciones |
-
-  ---
-
-  ## Dependencias principales
-
-  | Paquete | Uso |
-  |---|---|
-  | `anthropic` | Claude API (parser LLM + recomendaciones) |
-  | `streamlit` | Interfaces de usuario |
-  | `chromadb` | Base de datos vectorial para busqueda semantica |
-  | `sentence-transformers` | Modelo de embeddings (all-MiniLM-L6-v2) |
-  | `plotly` | Graficas interactivas |
-  | `pandas` / `openpyxl` | Parseo de Excel |
-  | `pdfplumber` | Extraccion de texto en PDFs |
-  | `reportlab` | Exportacion a PDF |
-  | `pytesseract` | OCR para PDFs escaneados (opcional) |
+| Paquete | Uso |
+|---|---|
+| `openai` | GPT-4o Mini (recomendaciones y narrativa ejecutiva) |
+| `fastapi` + `uvicorn` | API REST |
+| `streamlit` | Interfaz de 11 fases |
+| `chromadb` | Base de datos vectorial para RAG |
+| `sentence-transformers` | Embeddings (all-MiniLM-L6-v2) |
+| `xgboost` + `shap` | Modelo de eficiencia por SKU |
+| `numpy` + `pandas` | Calculo de KPIs y simulacion Monte Carlo |
+| `fpdf2` | Generacion de reportes PDF |
+| `plotly` | Graficas interactivas en Streamlit |

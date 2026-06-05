@@ -13,7 +13,7 @@ def health_check():
 
 @router.get("/health/detailed")
 def health_detailed():
-    api_key_ok = bool(os.getenv("ANTHROPIC_API_KEY"))
+    api_key_ok = bool(os.getenv("OPENAI_API_KEY"))
     return {
         "status": "ok" if api_key_ok else "degraded",
         "api_key_configured": api_key_ok,
