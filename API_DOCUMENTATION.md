@@ -73,8 +73,8 @@ Cuando se llama a `/analyze` o `/pdf`, la API ejecuta internamente las siguiente
 | 5 | Macro | Consulta de índices macroeconómicos (Banxico, INEGI) |
 | 6 | Health Score | Score compuesto 0–100 basado en KPIs y contexto macro |
 | 7 | RAG | Ingestión de documentos cualitativos y recuperación semántica |
-| 8 | LLM | Generación de recomendaciones y narrativa ejecutiva con GPT-4o Mini |
-| 9 | PDF | Composición del reporte ejecutivo (solo en `/pdf`) |
+| 8 | LLM | Generación de recomendaciones, narrativa ejecutiva y **contexto macroeconómico sectorial** con GPT-4o Mini — el giro del negocio se infiere automáticamente de los documentos cualitativos y las categorías de SKUs |
+| 9 | PDF | Composición del reporte ejecutivo con 7 secciones (solo en `/pdf`) |
 
 Los endpoints individuales (`/kpis`, `/health-score`, `/forecast`) ejecutan únicamente las fases que necesitan, sin llamar al LLM.
 
@@ -445,6 +445,15 @@ El análisis se ejecuta en segundo plano. Consulta `GET /tasks/{task_id}` hasta 
     "confianza": "media",
     "advertencia": ""
   },
+  "contexto_sectorial": {
+    "giro_detectado": "restaurantes",
+    "resumen": "El sector restaurantero en México enfrenta presión de costos por el alza del salario mínimo (+12% en 2026) y la inflación de insumos alimentarios por encima del INPC general. La reforma laboral de subcontratación impacta la estructura de nómina. La demanda muestra recuperación moderada en zonas urbanas, impulsada por turismo nacional.",
+    "factores": [
+      { "tipo": "regulatorio", "descripcion": "Incremento del salario mínimo general y zona libre fronteriza para 2026 — presión directa sobre la línea de nómina." },
+      { "tipo": "riesgo", "descripcion": "Inflación de alimentos y bebidas por encima del INPC general, con impacto en el costo directo de insumos." },
+      { "tipo": "oportunidad", "descripcion": "Recuperación del turismo nacional e internacional en zonas metropolitanas favorece el ticket promedio en segmento premium." }
+    ]
+  },
   "limitaciones": [
     "Solo 1 mes de datos — tendencias poco confiables."
   ],
@@ -741,15 +750,15 @@ El PDF se genera en segundo plano. Consulta `GET /tasks/{task_id}` hasta `status
 
 El PDF contiene las siguientes secciones:
 
-1. **Portada** — Logo, nombre del cliente, período y Health Score destacado
-2. **KPIs consolidados** — Tarjetas de métricas clave y tabla vs benchmark con semáforo
-3. **Dimensiones del Health Score** — Gráficas de barras por dimensión
-4. **Análisis ML / SHAP** — Top 3 factores de eficiencia y narrativa
-5. **Forecast e Índices Macro** — Proyección de ingresos y contexto económico
-6. **Recomendaciones del Copilot** — Entre 3 y 5 recomendaciones con evidencia, acción e impacto
-7. **Limitaciones** — Advertencias del análisis
+1. **Portada** — Nombre del cliente, período, Health Score destacado y resumen ejecutivo
+2. **KPIs consolidados** — Tarjetas de métricas clave y tabla vs benchmark con semáforo de colores
+3. **Dimensiones del Health Score** — Barras por dimensión ponderada
+4. **Análisis ML / SHAP** — Top 3 factores de eficiencia y narrativa explicativa
+5. **Forecast e Índices Macro** — Proyección de ingresos por sucursal y contexto económico general
+6. **Contexto Macroeconómico Sectorial** — Giro del negocio detectado automáticamente, entorno del sector en México y factores externos clasificados (regulatorio, riesgo, oportunidad, tendencia)
+7. **Recomendaciones del Copilot** — Entre 3 y 5 recomendaciones con evidencia, acción e impacto estimado; todo el texto con word-wrap garantizado
 
-**Nota:** Con `include_recommendations=false` el PDF se genera sin llamar al LLM en ~5 segundos. Con recomendaciones, el tiempo total es de 20–50 segundos.
+**Nota:** Con `include_recommendations=false` el PDF se genera sin llamar al LLM en ~5 segundos (la sección de Contexto Sectorial requiere el LLM). Con recomendaciones, el tiempo total es de 20–50 segundos.
 
 ---
 
@@ -844,6 +853,25 @@ print(f"Prob. EBITDA positivo: {res['probabilidades_benchmark']['ebitda_positivo
 ---
 
 ## 8. Estructura de respuestas
+
+### Objeto `contexto_sectorial`
+
+Generado por el LLM a partir de los documentos cualitativos y las categorías de SKUs. Si no hay documentos, el giro se infiere de los nombres de categorías del archivo BD.
+
+```json
+{
+  "giro_detectado": "string — sector o giro identificado (ej: restaurantes, retail, manufactura)",
+  "resumen": "string — párrafo de 4-6 oraciones con el entorno macroeconómico específico del giro en México",
+  "factores": [
+    {
+      "tipo": "regulatorio | tendencia | riesgo | oportunidad",
+      "descripcion": "string — descripción concisa del factor y su impacto potencial"
+    }
+  ]
+}
+```
+
+---
 
 ### Objeto `recomendacion`
 

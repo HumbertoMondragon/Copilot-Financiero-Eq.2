@@ -38,6 +38,13 @@ _SYSTEM_INSTRUCTION = (
 _OUTPUT_FORMAT = (
     'Responde ÚNICAMENTE con este JSON (sin markdown, sin preámbulo):\n'
     '{\n'
+    '  "contexto_sectorial": {\n'
+    '    "giro_detectado": "Sector o giro del negocio inferido de los documentos cualitativos y las categorías de SKUs (ej: restaurantes, manufactura, retail, clínicas). Si no hay documentos, infiere del nombre de categorías.",\n'
+    '    "resumen": "Párrafo de 4-6 oraciones con el entorno macroeconómico específico del giro en México: reformas regulatorias recientes (laborales, fiscales, sanitarias), tendencias del sector, presiones de costos particulares del giro, y oportunidades u amenazas externas relevantes para el periodo analizado.",\n'
+    '    "factores": [\n'
+    '      {"tipo": "regulatorio|tendencia|riesgo|oportunidad", "descripcion": "Descripción concisa del factor sectorial y su impacto potencial en el negocio."}\n'
+    '    ]\n'
+    '  },\n'
     '  "recomendaciones": [\n'
     '    {\n'
     '      "id": "REC-001",\n'
@@ -53,7 +60,8 @@ _OUTPUT_FORMAT = (
     '  "narrativa_ejecutiva": "Párrafo ejecutivo de 5-7 oraciones que integre: estado financiero general con el Health Score, los KPIs más relevantes vs benchmark, factores ML/SHAP determinantes, tendencia de ingresos y contexto macro. Debe ser redactado como un consultor senior explicando la situación a un director.",\n'
     '  "limitaciones": ["limitación específica con explicación de su impacto en el análisis"]\n'
     '}\n'
-    'Entre 3 y 5 recomendaciones. Prioriza por fortaleza de evidencia y magnitud del impacto potencial. Cada descripción debe citar valores numéricos específicos de los datos proporcionados.'
+    'Entre 3 y 5 recomendaciones. Prioriza por fortaleza de evidencia y magnitud del impacto potencial. Cada descripción debe citar valores numéricos específicos de los datos proporcionados. '
+    'El campo "contexto_sectorial" es obligatorio: si no hay documentos cualitativos, infiere el giro de las categorías de SKUs y proporciona igualmente el análisis sectorial.'
 )
 
 
@@ -71,6 +79,7 @@ class CopilotReport:
     forecast: Optional[Dict[str, Any]]
     limitaciones: List[str]
     metadata: Dict[str, Any]
+    contexto_sectorial: Dict[str, Any] = field(default_factory=dict)
 
 
 class CopilotEngine:
@@ -313,6 +322,7 @@ class CopilotEngine:
             shap_top_factores=shap_top,
             forecast=forecast_dict,
             limitaciones=limitaciones,
+            contexto_sectorial=llm_data.get("contexto_sectorial", {}),
             metadata={
                 "meses_analizados": len(kpi_report.meses_analizados),
                 "total_skus": len(eff),

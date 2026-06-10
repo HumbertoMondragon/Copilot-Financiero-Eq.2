@@ -176,10 +176,8 @@ class _PDF(FPDF):
 
     def wrapped(self, text: str, size: int = 9, indent: int = 0, lh: float = 4.8):
         self.f("", size)
-        width = 190 - indent
-        for line in textwrap.wrap(_t(text), width=max(40, int(width * 1.6))):
-            self.set_x(10 + indent)
-            self.cell(0, lh, line, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        self.set_x(10 + indent)
+        self.multi_cell(190 - indent, lh, _t(text), new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
     def info_box(self, text: str, color=None):
         color = color or _ACCENT_BLUE
@@ -187,11 +185,9 @@ class _PDF(FPDF):
         self.f("I", 8)
         x, y = self.get_x(), self.get_y()
         self.rect(x, y, 190, 1, "F")
-        self.set_x(x)
-        for line in textwrap.wrap(_t(text), width=105):
-            self.set_x(12)
-            self.set_fill_color(*color)
-            self.cell(188, 4.5, line, fill=True, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        self.set_x(12)
+        self.set_fill_color(*color)
+        self.multi_cell(188, 4.5, _t(text), fill=True, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         self.set_fill_color(*color)
         self.cell(190, 1, "", fill=True, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         self.f("", 9)
@@ -281,8 +277,9 @@ def _portada(pdf: _PDF, cliente_id: str, periodo: str, score: float,
         "2. Dimensiones del Health Score",
         "3. Analisis de eficiencia (Machine Learning / SHAP)",
         "4. Forecast de ingresos y contexto macroeconomico",
-        "5. Simulacion de escenarios Monte Carlo",
-        "6. Recomendaciones del copilot",
+        "5. Contexto macroeconomico sectorial (giro del negocio)",
+        "6. Simulacion de escenarios Monte Carlo",
+        "7. Recomendaciones del copilot",
     ]
     for item in items:
         pdf.f("", 8)
@@ -697,6 +694,66 @@ def _pagina_escenario(pdf: _PDF, sr):
         pdf.ln(1)
 
 
+def _pagina_contexto_sectorial(pdf: _PDF, ctx: dict):
+    giro = _t(ctx.get("giro_detectado", ""))
+    resumen = _t(ctx.get("resumen", ""))
+    factores = ctx.get("factores", [])
+    if not giro and not resumen:
+        return
+
+    pdf.add_page()
+    pdf.section_title("Contexto Macroeconómico Sectorial")
+
+    if giro:
+        pdf.set_fill_color(*_ACCENT_BLUE)
+        pdf.set_text_color(*_DARK_BLUE)
+        pdf.f("B", 9)
+        pdf.set_x(10)
+        pdf.cell(190, 7, _t(f"  Giro detectado: {giro}"), fill=True,
+                 new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        pdf.set_text_color(*_BLACK)
+        pdf.ln(4)
+
+    if resumen:
+        pdf.f("B", 9)
+        pdf.set_text_color(*_DARK_BLUE)
+        pdf.cell(0, 5, "Entorno del sector en México:", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        pdf.set_text_color(*_BLACK)
+        pdf.ln(1)
+        pdf.info_box(resumen)
+
+    if factores:
+        pdf.ln(2)
+        pdf.f("B", 9)
+        pdf.set_text_color(*_DARK_BLUE)
+        pdf.cell(0, 5, "Factores externos relevantes:", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        pdf.set_text_color(*_BLACK)
+        pdf.ln(2)
+
+        tipo_color = {
+            "regulatorio": _MID_BLUE,
+            "tendencia":   _GRAY,
+            "riesgo":      _RED,
+            "oportunidad": _GREEN,
+        }
+        for fac in factores:
+            if pdf.get_y() > 265:
+                pdf.add_page()
+            tipo = _t(fac.get("tipo", "tendencia")).lower()
+            desc = _t(fac.get("descripcion", ""))
+            color = tipo_color.get(tipo, _GRAY)
+            y0 = pdf.get_y()
+            pdf.set_fill_color(*color)
+            pdf.rect(10, y0 + 1, 3, 4, "F")
+            pdf.set_xy(15, y0)
+            pdf.badge(_t(tipo.upper()), color, w=28)
+            pdf.set_xy(45, y0)
+            pdf.f("", 8)
+            pdf.set_text_color(*_BLACK)
+            pdf.multi_cell(155, 4.5, desc, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+            pdf.ln(2)
+
+
 def _pagina_recomendaciones(pdf: _PDF, copilot_report):
     recos = copilot_report.recomendaciones or []
     if not recos:
@@ -721,21 +778,17 @@ def _pagina_recomendaciones(pdf: _PDF, copilot_report):
         # Rec header
         pdf.set_fill_color(*_LIGHT_GRAY)
         pdf.set_xy(13, y0)
-        pdf.f("B", 9)
+        pdf.f("B", 8)
         pdf.set_text_color(*_DARK_BLUE)
         rec_id = _t(rec.get("id", f"REC-{i+1:03d}"))
-        titulo = _t(rec.get("titulo", ""), 80)
-        pdf.cell(185, 8, f"  {rec_id}  |  {titulo}", fill=True,
-                 new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        pdf.cell(185, 5, f"  {rec_id}  |  {_t(rec.get('area', '')).upper()}  |  Prioridad: {prioridad.upper()}",
+                 fill=True, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        pdf.set_xy(13, pdf.get_y())
+        pdf.f("B", 9)
+        pdf.multi_cell(185, 5.5, f"  {_t(rec.get('titulo', ''))}", fill=True,
+                       new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         pdf.set_text_color(*_BLACK)
 
-        # Area + prioridad
-        pdf.set_xy(14, pdf.get_y())
-        pdf.f("", 7)
-        pdf.set_text_color(*_GRAY)
-        pdf.cell(0, 4, _t(f"Area: {rec.get('area', '')}   Prioridad: {prioridad.upper()}"),
-                 new_x=XPos.LMARGIN, new_y=YPos.NEXT)
-        pdf.set_text_color(*_BLACK)
         pdf.ln(1)
 
         # Descripcion
@@ -750,14 +803,11 @@ def _pagina_recomendaciones(pdf: _PDF, copilot_report):
             pdf.set_x(14)
             pdf.f("B", 8)
             pdf.set_text_color(*_DARK_BLUE)
-            pdf.cell(32, 4.5, "Accion sugerida:", new_x=XPos.RIGHT)
+            pdf.cell(0, 4.5, "Accion sugerida:", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
             pdf.set_text_color(*_BLACK)
             pdf.f("", 8)
-            lines = textwrap.wrap(_t(accion), width=88)
-            for j, line in enumerate(lines):
-                if j > 0:
-                    pdf.set_x(46)
-                pdf.cell(0, 4.5, line, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+            pdf.set_x(18)
+            pdf.multi_cell(182, 4.5, _t(accion), new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
         # Impacto
         impacto = rec.get("impacto_estimado", "")
@@ -766,8 +816,10 @@ def _pagina_recomendaciones(pdf: _PDF, copilot_report):
             pdf.set_x(14)
             pdf.f("B", 8)
             pdf.set_text_color(*_GREEN)
-            pdf.cell(0, 4.5, _t(f"Impacto estimado: {impacto}", 110),
-                     new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+            pdf.cell(0, 4.5, "Impacto estimado:", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+            pdf.f("", 8)
+            pdf.set_x(18)
+            pdf.multi_cell(182, 4.5, _t(impacto), new_x=XPos.LMARGIN, new_y=YPos.NEXT)
             pdf.set_text_color(*_BLACK)
 
         # Evidencias
@@ -782,8 +834,8 @@ def _pagina_recomendaciones(pdf: _PDF, copilot_report):
             for ev in evidencias[:3]:
                 pdf.set_x(18)
                 pdf.f("", 7)
-                ev_txt = _t(f"{ev.get('tipo','')}: {ev.get('fuente','')} = {ev.get('valor','')}", 100)
-                pdf.cell(0, 3.5, f"- {ev_txt}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+                ev_txt = _t(f"{ev.get('tipo','')}: {ev.get('fuente','')} = {ev.get('valor','')}")
+                pdf.multi_cell(182, 3.5, f"- {ev_txt}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
         pdf.ln(2)
         pdf.set_draw_color(*_LIGHT_GRAY)
@@ -802,8 +854,8 @@ def _pagina_recomendaciones(pdf: _PDF, copilot_report):
         pdf.cell(0, 5, "Limitaciones del analisis:", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         for lim in lims:
             pdf.f("", 8)
-            pdf.cell(4, 4.5, "-", new_x=XPos.RIGHT)
-            pdf.cell(0, 4.5, _t(lim, 130), new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+            pdf.set_x(14)
+            pdf.multi_cell(186, 4.5, f"- {_t(lim)}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         pdf.set_text_color(*_BLACK)
 
 
@@ -844,6 +896,8 @@ def generar_reporte(
     _pagina_kpis(pdf, kpi_report, health_report)
     _pagina_shap(pdf, shap_narrative)
     _pagina_forecast_macro(pdf, forecast_result, macro_indices)
+    if copilot_report is not None and copilot_report.contexto_sectorial:
+        _pagina_contexto_sectorial(pdf, copilot_report.contexto_sectorial)
     if scenario_result is not None:
         _pagina_escenario(pdf, scenario_result)
     if copilot_report is not None:

@@ -114,7 +114,7 @@ La interfaz guia al usuario por las 11 fases del pipeline: carga de archivos, pa
 | 7 | Macro | Inflacion, tasa Banxico, tipo de cambio (INEGI/Banxico) |
 | 8 | Health Score | Score compuesto 0-100 por mes con dimensiones ponderadas |
 | 9 | Documentos cualitativos | Ingestion RAG, embeddings, ChromaDB |
-| 10 | Recomendaciones LLM | GPT-4o Mini genera recomendaciones citando los KPIs reales |
+| 10 | Recomendaciones LLM | GPT-4o Mini genera recomendaciones, narrativa ejecutiva y contexto macroeconomico sectorial (giro inferido de los documentos cualitativos y categorias de SKUs) |
 | 11 | Escenarios Monte Carlo | Simulacion what-if con distribuciones de probabilidad |
 
 ---
@@ -172,7 +172,6 @@ Copilot-Financiero-Eq.2/
 ├── .gitignore
 ├── load_env.ps1                # Script PowerShell para cargar el entorno
 ├── API_DOCUMENTATION.md        # Documentacion completa de la API
-└── CLAUDE.md                   # Guia para Claude Code
 ```
 
 ---
@@ -207,6 +206,8 @@ pytest tests/test_kpis.py -v
 | `GET` | `/api/v1/tasks/{id}/download` | Descargar PDF generado |
 
 Ver `API_DOCUMENTATION.md` para la especificacion completa con ejemplos.
+
+Ver `docs/ml_xgboost.md` para el detalle del modelo XGBoost: features, ajuste de hiperparámetros y métricas de evaluación.
 
 ---
 
