@@ -194,8 +194,15 @@ def _tab_kpis(st, results):
                 suc_names = list(suc_data.keys())
                 rev_vals = [suc_data[s].get("ultimo", 0) if isinstance(suc_data[s], dict) else 0
                             for s in suc_names]
-                fig = go.Figure(go.Bar(x=suc_names, y=rev_vals, name="Revenue"))
-                fig.update_layout(height=350)
+                fig = go.Figure(go.Bar(
+                    x=suc_names, y=rev_vals, name="Revenue",
+                    marker_color="#1B3A5C",
+                ))
+                fig.update_layout(
+                    height=350, template="plotly_white",
+                    font={"family": "sans-serif", "color": "#1A1A2E"},
+                    plot_bgcolor="#FFFFFF", paper_bgcolor="#FFFFFF",
+                )
                 st.plotly_chart(fig, use_container_width=True)
         except Exception:
             pass
@@ -233,8 +240,17 @@ def _tab_modelo(st, results):
             sorted_shap = sorted(shap_vals.items(), key=lambda x: x[1], reverse=True)[:15]
             feats = [s[0] for s in sorted_shap]
             vals = [s[1] for s in sorted_shap]
-            fig = go.Figure(go.Bar(x=vals, y=feats, orientation="h"))
-            fig.update_layout(title="SHAP Feature Importance", height=400, yaxis={"autorange": "reversed"})
+            fig = go.Figure(go.Bar(
+                x=vals, y=feats, orientation="h",
+                marker_color="#2A6496",
+            ))
+            fig.update_layout(
+                title="SHAP Feature Importance", height=400,
+                yaxis={"autorange": "reversed"},
+                template="plotly_white",
+                font={"family": "sans-serif", "color": "#1A1A2E"},
+                plot_bgcolor="#FFFFFF", paper_bgcolor="#FFFFFF",
+            )
             st.plotly_chart(fig, use_container_width=True)
         except Exception:
             st.json(shap_vals)
@@ -318,15 +334,22 @@ def _tab_forecast(st, results):
             fig = go.Figure()
             fig.add_trace(go.Scatter(
                 x=hist_months, y=hist_rev, mode="lines+markers", name="Histórico",
-                line={"color": "steelblue"},
+                line={"color": "#1B3A5C", "width": 2},
+                marker={"color": "#1B3A5C", "size": 6},
             ))
             fig.add_trace(go.Scatter(
                 x=[hist_months[-1], mes_proy] if hist_months else [mes_proy],
                 y=[hist_rev[-1], rev] if hist_rev else [rev],
                 mode="lines+markers", name="Proyectado",
-                line={"color": "orange", "dash": "dash"},
+                line={"color": "#2A7F7F", "dash": "dash", "width": 2},
+                marker={"color": "#2A7F7F", "size": 6},
             ))
-            fig.update_layout(title="Revenue Histórico + Proyectado", height=350)
+            fig.update_layout(
+                title="Revenue Histórico + Proyectado", height=350,
+                template="plotly_white",
+                font={"family": "sans-serif", "color": "#1A1A2E"},
+                plot_bgcolor="#FFFFFF", paper_bgcolor="#FFFFFF",
+            )
             st.plotly_chart(fig, use_container_width=True)
         except Exception:
             pass
@@ -448,7 +471,12 @@ def _tab_health(st, results):
                 marker_color=colors, text=[f"{v:.0f}" for v in dim_vals],
                 textposition="outside",
             ))
-            fig.update_layout(title="Score por Dimensión", height=300, xaxis_range=[0, 100])
+            fig.update_layout(
+                title="Score por Dimensión", height=300, xaxis_range=[0, 100],
+                template="plotly_white",
+                font={"family": "sans-serif", "color": "#1A1A2E"},
+                plot_bgcolor="#FFFFFF", paper_bgcolor="#FFFFFF",
+            )
             st.plotly_chart(fig, use_container_width=True)
         except Exception:
             st.json(dimensiones)
@@ -466,9 +494,15 @@ def _tab_health(st, results):
             scores_hist = [por_mes[m].get("score_total", 0) for m in meses]
             fig = go.Figure(go.Scatter(
                 x=meses, y=scores_hist, mode="lines+markers",
-                line={"color": "steelblue"},
+                line={"color": "#1B3A5C", "width": 2},
+                marker={"color": "#1B3A5C", "size": 6},
             ))
-            fig.update_layout(title="Tendencia Health Score", height=300, yaxis_range=[0, 100])
+            fig.update_layout(
+                title="Tendencia Health Score", height=300, yaxis_range=[0, 100],
+                template="plotly_white",
+                font={"family": "sans-serif", "color": "#1A1A2E"},
+                plot_bgcolor="#FFFFFF", paper_bgcolor="#FFFFFF",
+            )
             st.plotly_chart(fig, use_container_width=True)
         except Exception:
             pass
@@ -558,15 +592,20 @@ def _tab_simulador(st, results):
         fig.add_trace(go.Histogram(
             x=[v * 100 for v in dist_mb.valores],
             nbinsx=40, name="Margen bruto",
-            marker_color="#4C9BE8", opacity=0.8,
+            marker_color="#2A6496", opacity=0.85,
         ))
-        fig.add_vline(x=dist_mb.p50 * 100, line_dash="dash", line_color="#1E3A5F",
+        fig.add_vline(x=dist_mb.p50 * 100, line_dash="dash", line_color="#1B3A5C",
                       annotation_text=f"Mediana {dist_mb.p50:.1%}")
-        fig.add_vline(x=bench_mb * 100, line_dash="dot", line_color="#E84C4C",
+        fig.add_vline(x=bench_mb * 100, line_dash="dot", line_color="#C62828",
                       annotation_text=f"Benchmark {bench_mb:.1%}")
-        fig.update_layout(title="Distribución — Margen bruto", xaxis_title="%",
-                          yaxis_title="Frecuencia", showlegend=False,
-                          margin=dict(t=40, b=30), height=280)
+        fig.update_layout(
+            title="Distribución — Margen bruto", xaxis_title="%",
+            yaxis_title="Frecuencia", showlegend=False,
+            margin=dict(t=40, b=30), height=280,
+            template="plotly_white",
+            font={"family": "sans-serif", "color": "#1A1A2E"},
+            plot_bgcolor="#FFFFFF", paper_bgcolor="#FFFFFF",
+        )
         st.plotly_chart(fig, use_container_width=True)
 
     with ch2:
@@ -574,15 +613,20 @@ def _tab_simulador(st, results):
         fig2.add_trace(go.Histogram(
             x=[v / 1_000 for v in dist_eb.valores],
             nbinsx=40, name="EBITDA",
-            marker_color="#4CBF8E", opacity=0.8,
+            marker_color="#2A7F7F", opacity=0.85,
         ))
-        fig2.add_vline(x=dist_eb.p50 / 1_000, line_dash="dash", line_color="#1E3A5F",
+        fig2.add_vline(x=dist_eb.p50 / 1_000, line_dash="dash", line_color="#1B3A5C",
                        annotation_text=f"Mediana ${dist_eb.p50/1e6:.2f}M")
-        fig2.add_vline(x=0, line_dash="dot", line_color="#E84C4C",
+        fig2.add_vline(x=0, line_dash="dot", line_color="#C62828",
                        annotation_text="Breakeven")
-        fig2.update_layout(title="Distribución — EBITDA", xaxis_title="Miles $MXN",
-                           yaxis_title="Frecuencia", showlegend=False,
-                           margin=dict(t=40, b=30), height=280)
+        fig2.update_layout(
+            title="Distribución — EBITDA", xaxis_title="Miles $MXN",
+            yaxis_title="Frecuencia", showlegend=False,
+            margin=dict(t=40, b=30), height=280,
+            template="plotly_white",
+            font={"family": "sans-serif", "color": "#1A1A2E"},
+            plot_bgcolor="#FFFFFF", paper_bgcolor="#FFFFFF",
+        )
         st.plotly_chart(fig2, use_container_width=True)
 
     # ── Tabla de percentiles ──────────────────────────────────────────────────
@@ -941,6 +985,33 @@ def main():
         layout="wide",
         page_icon="💹",
     )
+
+    st.markdown("""
+    <style>
+        /* hide streamlit chrome */
+        #MainMenu, footer, header { visibility: hidden; }
+
+        /* tighter top padding */
+        .block-container { padding-top: 1.5rem; }
+
+        /* sidebar: subtle right border, no hard edge */
+        section[data-testid="stSidebar"] {
+            border-right: 1px solid #DDE3EA;
+            background-color: #F4F6F9;
+        }
+
+        /* metric label: smaller, muted */
+        [data-testid="stMetricLabel"] { font-size: 0.75rem; color: #5A6A7A; }
+
+        /* dataframe header: navy text */
+        [data-testid="stDataFrame"] th { color: #1B3A5C !important; font-weight: 600; }
+
+        /* tab strip: bottom border matches primary */
+        [data-baseweb="tab-list"] { border-bottom: 2px solid #DDE3EA; }
+        [aria-selected="true"] { border-bottom: 2px solid #1B3A5C !important; }
+    </style>
+    """, unsafe_allow_html=True)
+
     st.title("💹 Copilot Financiero v2 — Developer Demo")
 
     # ── Session state init ────────────────────────────────────────────────────
