@@ -2,12 +2,16 @@
 
 Copiloto financiero con IA para PyMEs mexicanas. Analiza ventas y estado de resultados, calcula KPIs, genera un Health Score compuesto, proyecta ingresos y produce recomendaciones accionables mediante GPT-4o Mini.
 
-El proyecto se entrega como dos componentes complementarios:
+## Entregable principal: API REST
 
-| Componente | Comando | Descripcion |
+El entregable central es una **API REST** que expone toda la inteligencia financiera del sistema como servicio. Cualquier sistema existente del cliente — ERP, dashboard propio, portal web, script de Excel — puede consumirla con una llamada HTTP estándar, sin instalar software adicional ni modificar sus procesos actuales.
+
+La **interfaz Streamlit** es una demo interactiva que muestra, paso a paso, exactamente lo que hace esa misma API: desde la carga de archivos hasta el reporte PDF ejecutivo. Su propósito es hacer visible el pipeline completo durante la presentación, no reemplazar al API como entregable.
+
+| Componente | Rol | Comando |
 |---|---|---|
-| **API REST** | `uvicorn src.api.app:app` | 12 endpoints FastAPI para integrarse sin instalar nada adicional |
-| **Interfaz Streamlit** | `streamlit run streamlit/app.py` | Interfaz de 11 fases que visualiza cada etapa del pipeline |
+| **API REST** | Entregable de produccion — se integra a cualquier sistema | `uvicorn src.api.app:app` |
+| **Interfaz Streamlit** | Demo interactiva del pipeline completo | `streamlit run streamlit/app.py` |
 
 ---
 
