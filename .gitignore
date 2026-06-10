@@ -5,9 +5,3 @@ __pycache__/
 *.pyc
 *.pyo
 .DS_Store
-.claude/
-CLAUDE.md
-PROMPTS_V2 (1).md
-RGA_Copilot_Pipeline_v2.md
-PROMPTS*.md
-RGA_*.md
