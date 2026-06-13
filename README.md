@@ -2,6 +2,8 @@
 
 Copiloto financiero con IA para PyMEs mexicanas. Analiza ventas y estado de resultados, calcula KPIs, genera un Health Score compuesto, proyecta ingresos y produce recomendaciones accionables mediante GPT-4o Mini.
 
+---
+
 ## Entregable principal: API REST
 
 El entregable central es una **API REST** que expone toda la inteligencia financiera del sistema como servicio. Cualquier sistema existente del cliente — ERP, dashboard propio, portal web, script de Excel — puede consumirla con una llamada HTTP estándar, sin instalar software adicional ni modificar sus procesos actuales.
@@ -35,7 +37,7 @@ python -m venv .venv
 # source .venv/bin/activate     # macOS / Linux
 
 # 3. Instalar dependencias
-pip install fastapi uvicorn openai chromadb sentence-transformers xgboost shap numpy pandas fpdf2 streamlit plotly python-dotenv requests
+pip install fastapi uvicorn openai chromadb sentence-transformers xgboost shap numpy pandas fpdf2 streamlit plotly python-dotenv requests matplotlib
 ```
 
 ---
@@ -118,7 +120,7 @@ La interfaz guia al usuario por las 11 fases del pipeline: carga de archivos, pa
 | 7 | Macro | Inflacion, tasa Banxico, tipo de cambio (INEGI/Banxico) |
 | 8 | Health Score | Score compuesto 0-100 por mes con dimensiones ponderadas |
 | 9 | Documentos cualitativos | Ingestion RAG, embeddings, ChromaDB |
-| 10 | Recomendaciones LLM | GPT-4o Mini genera recomendaciones, narrativa ejecutiva y contexto macroeconomico sectorial (giro inferido de los documentos cualitativos y categorias de SKUs) |
+| 10 | Recomendaciones LLM | GPT-4o Mini genera recomendaciones, narrativa ejecutiva y contexto macroeconomico sectorial |
 | 11 | Escenarios Monte Carlo | Simulacion what-if con distribuciones de probabilidad |
 
 ---
@@ -160,6 +162,18 @@ Copilot-Financiero-Eq.2/
 │           ├── parser_bd.py    # Parser CSV de ventas
 │           ├── parser_er.py    # Parser CSV de estado de resultados
 │           └── parser_utils.py
+├── docs/
+│   ├── ml_xgboost.md           # Modelo XGBoost: limpieza, features, hiperparametros, metricas
+│   └── pipeline_tecnico.md     # Pipeline general: ER parser, forecast, Health Score, RAG, Monte Carlo
+├── reporte/
+│   ├── Ev1__Reporte_Final.pdf        # Reporte academico final
+│   ├── PRESENTACION_EJECUTIVA.pdf    # Presentacion ejecutiva
+│   └── reporte_assets/
+│       ├── generar_reporte.py        # Script: genera tablas LaTeX y figuras PNG
+│       ├── BDN.csv                   # Datos BD cliente piloto (no versionado)
+│       ├── ERN.csv                   # Datos ER cliente piloto (no versionado)
+│       ├── tablas_latex.tex          # Tablas generadas (no versionado)
+│       └── fig*.png                  # Figuras a 300 DPI (no versionado)
 ├── streamlit/
 │   └── app.py                  # Interfaz de 11 fases
 ├── tests/
@@ -175,6 +189,7 @@ Copilot-Financiero-Eq.2/
 ├── .env                        # Variables de entorno (no se versiona)
 ├── .gitignore
 ├── load_env.ps1                # Script PowerShell para cargar el entorno
+├── RGA_Copilot_Pipeline_v2.md  # Documento de arquitectura del pipeline para cliente
 └── API_DOCUMENTATION.md        # Documentacion completa de la API
 ```
 
@@ -211,7 +226,15 @@ pytest tests/test_kpis.py -v
 
 Ver `API_DOCUMENTATION.md` para la especificacion completa con ejemplos.
 
-Ver `docs/ml_xgboost.md` para el detalle del modelo XGBoost: features, ajuste de hiperparámetros y métricas de evaluación.
+---
+
+## Documentacion tecnica
+
+| Archivo | Contenido |
+|---|---|
+| `docs/ml_xgboost.md` | Limpieza de datos, features de entrada, ajuste de hiperparametros (4 rondas), metricas de evaluacion |
+| `docs/pipeline_tecnico.md` | Parser del ER, forecast de ingresos, Health Score (dimensiones y escala), RAG/ChromaDB, Monte Carlo |
+| `API_DOCUMENTATION.md` | Especificacion completa de endpoints con ejemplos de request/response |
 
 ---
 
@@ -228,3 +251,21 @@ Ver `docs/ml_xgboost.md` para el detalle del modelo XGBoost: features, ajuste de
 | `numpy` + `pandas` | Calculo de KPIs y simulacion Monte Carlo |
 | `fpdf2` | Generacion de reportes PDF |
 | `plotly` | Graficas interactivas en Streamlit |
+| `matplotlib` | Figuras PNG para reporte academico |
+
+---
+
+## Reporte final
+
+El reporte academico y la presentacion ejecutiva se encuentran en la carpeta `reporte/`:
+
+- `Ev1__Reporte_Final.pdf` — reporte academico completo listo para entregar
+- `PRESENTACION_EJECUTIVA.pdf` — presentacion ejecutiva del proyecto
+- `reporte_assets/` — tablas LaTeX y figuras PNG generadas para el reporte
+
+Para regenerar las tablas y figuras desde los datos originales:
+
+```powershell
+.venv\Scripts\activate
+python reporte/reporte_assets/generar_reporte.py
+```

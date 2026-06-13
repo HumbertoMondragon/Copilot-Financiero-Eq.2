@@ -5,3 +5,12 @@ __pycache__/
 *.pyc
 *.pyo
 .DS_Store
+
+# Datos de cliente y outputs generados (reporte academico)
+reporte/reporte_assets/BDN.csv
+reporte/reporte_assets/ERN.csv
+reporte/reporte_assets/*.png
+reporte/reporte_assets/tablas_latex.tex
+
+# PDFs del reporte (binarios grandes)
+reporte/*.pdf

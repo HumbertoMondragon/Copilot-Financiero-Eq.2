@@ -8,6 +8,48 @@ Los valores SHAP calculados sobre este modelo explican **qué factores de cada t
 
 ---
 
+## Limpieza y transformaciones
+
+### Encoding
+
+Ambos parsers (`parser_bd.py` y `parser_er.py`) leen los archivos con `encoding="utf-8-sig"`. El codec `utf-8-sig` de Python elimina automáticamente el BOM (_Byte Order Mark_) si está presente — Excel en Windows lo inserta al exportar CSV, lo que provoca que caracteres como `ñ`, `á`, `é` aparezcan corruptos si el archivo se lee como UTF-8 plano. Con `utf-8-sig` el mismo código funciona sin cambios tanto para archivos exportados desde Excel (con BOM) como para CSVs generados desde otros sistemas (sin BOM).
+
+---
+
+### Columnas de costo casi vacías en la BD
+
+El archivo de Grupo Nama contiene columnas adicionales más allá de las requeridas por el modelo — incluyendo alrededor de 50 columnas de costo con datos escasos o nulos. El parser maneja esto en dos pasos:
+
+1. **Selección por lista explícita.** El parser define exactamente las 11 columnas requeridas en `REQUIRED_COLUMNS`. Cualquier columna fuera de esa lista se ignora sin necesidad de limpiarla o imputarla.
+
+2. **Filtro de filas incompletas.** Dentro de las columnas seleccionadas, se descartan todas las filas donde `costo_sin_iva == 0` o `cantidad == 0`. Estos registros representan entradas sin costo capturado — mantenerlos distorsionaría el target (`multiplicador_eficiencia = utilidad / costo`) produciendo divisiones por cero o multiplicadores infinitos.
+
+Adicionalmente, antes de entrenar el modelo se aplica un cap en el percentil 99 del `multiplicador_eficiencia` para neutralizar outliers extremos por errores de captura.
+
+---
+
+### Cruce BD + ER para construir el P&L completo
+
+El ER del cliente piloto reporta ventas en `$0` porque el revenue vive en la BD. El sistema une ambas fuentes en `integrator.py` mediante intersección de meses:
+
+```
+meses_comunes = meses_BD ∩ meses_ER
+```
+
+Solo los meses presentes en ambos archivos se procesan. Para cada mes común:
+
+- **Revenue, costo directo y utilidad bruta** provienen exclusivamente de la BD, sumando las transacciones del mes.
+- **Gastos operativos** (nómina, gastos financieros, etc.) provienen exclusivamente del ER.
+
+El parser del ER inicializa todos los campos de gasto a `0.0` antes de leer el archivo (`_EMPTY_KPI`). Si una fila de gasto (por ejemplo, "VIÁTICOS") no aparece en el CSV de un mes, su valor queda en cero en lugar de generar un error — lo que representa correctamente un gasto no incurrido o no reportado. El EBITDA y la utilidad neta se calculan post-integración combinando ambas fuentes:
+
+```
+EBITDA          = utilidad_bruta_BD − total_gastos_operacion_ER
+Utilidad neta   = EBITDA − gastos_financieros_ER − impuestos_ER
+```
+
+---
+
 ## Features de entrada
 
 | Feature | Descripción |
